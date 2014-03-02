@@ -3,7 +3,7 @@ import ConfigParser
 import sys
 
 CMDLINE_SECTION = 'cmd.exe'
-ALIASES_PATH = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini1')
+ALIASES_PATH = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini')
 
 
 def get_config():
