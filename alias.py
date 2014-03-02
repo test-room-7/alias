@@ -1,8 +1,9 @@
+import os
 import ConfigParser
 import sys
 
 CMDLINE_SECTION = 'cmd.exe'
-ALIASES_PATH = r'C:\Users\esprit\Documents\Scripts\aliases.ini'
+ALIASES_PATH = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini1')
 
 
 def get_config():
