@@ -45,10 +45,6 @@ def main(args):
         if '=' in param:
             alias, command = param.split('=', 1)
             add_alias(alias, command)
-        elif param == '--test':
-            print_alias('mp4box')
-            print_alias('wrong_alias')
-            print_aliases()
         else:
             alias = param
             print_alias(alias)
