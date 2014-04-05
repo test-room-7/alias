@@ -55,7 +55,7 @@ def print_aliases():
     config = get_config()
     if config.has_section(CMDLINE_SECTION):
         opts = sorted(config.options(CMDLINE_SECTION))
-        print '\n'.join(opts)
+        print ', '.join(opts)
     else:
         print 'No aliases'
 
