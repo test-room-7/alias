@@ -37,12 +37,11 @@ def add_alias(alias, command):
 
 def del_alias(alias):
     config = get_config()
-    if config.has_section(CMDLINE_SECTION) and \
-       config.has_option(CMDLINE_SECTION, alias):
-            config.remove_option(CMDLINE_SECTION, alias)
-            save_config(config)
-            reload_aliases()
-            print 'Removed %s' % alias
+    if config.has_option(CMDLINE_SECTION, alias):
+        config.remove_option(CMDLINE_SECTION, alias)
+        save_config(config)
+        reload_aliases()
+        print 'Removed %s' % alias
     else:
         print 'Unknown alias: %s' % alias
 
@@ -58,11 +57,10 @@ def print_aliases():
 
 def print_alias(alias):
     config = get_config()
-    if config.has_section(CMDLINE_SECTION):
-        if alias in config.options(CMDLINE_SECTION):
-            print config.get(CMDLINE_SECTION, alias)
-            return
-    print 'Unknown alias: %s' % alias
+    if config.has_option(CMDLINE_SECTION, alias):
+        print config.get(CMDLINE_SECTION, alias)
+    else:
+        print 'Unknown alias: %s' % alias
 
 
 def main(args):
