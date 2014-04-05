@@ -1,14 +1,10 @@
-alias
-=====
 View and set command aliases in Windows.
 
-How to setup?
-=====
-1. Run autorun.reg.
-3. Put aliases.ini file with your aliases in %USERPROFILE%\Documents\Scripts. You can get example of aliases.ini [here][1].
+### How to setup?
+Just run `setup.reg`. After that you can manage your aliases.  
+Aliases file is located in `%USERPROFILE%\Documents\Scripts`.
 
-Usage
-=====
+### Managing aliases
 Get list of aliases:
 
     alias
@@ -18,5 +14,9 @@ Add an alias:
 Remove some alias:
 
     alias test=
+
+
+### External links
+[`aliases.ini` example][1]
 
 [1]: https://raw.github.com/alexesprit/bat-scripts/master/aliases.ini
