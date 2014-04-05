@@ -1,5 +1,6 @@
 import os
 import ConfigParser
+import subprocess
 import sys
 
 CMDLINE_SECTION = 'cmd.exe'
@@ -19,12 +20,18 @@ def save_config(config):
         config.write(config_file)
 
 
+def reload_aliases():
+    doskey = 'doskey /macrofile=%s' % ALIASES_FILE
+    subprocess.call(doskey, shell=True)
+
+
 def add_alias(alias, command):
     config = get_config()
     if not config.has_section(CMDLINE_SECTION):
         config.add_section(CMDLINE_SECTION)
     config.set(CMDLINE_SECTION, alias, command)
     save_config(config)
+    reload_aliases()
     print 'Added %s' % alias
 
 
@@ -34,6 +41,7 @@ def del_alias(alias):
        config.has_option(CMDLINE_SECTION, alias):
             config.remove_option(CMDLINE_SECTION, alias)
             save_config(config)
+            reload_aliases()
             print 'Removed %s' % alias
     else:
         print 'Unknown alias: %s' % alias
