@@ -3,12 +3,14 @@ import ConfigParser
 import sys
 
 CMDLINE_SECTION = 'cmd.exe'
-ALIASES_PATH = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini')
+ALIASES_FILE = os.path.expandvars('%ALIASES_FILE%')
+if not ALIASES_FILE:
+    ALIASES_FILE = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini')
 
 
 def get_config():
     config = ConfigParser.RawConfigParser()
-    config.read(ALIASES_PATH)
+    config.read(ALIASES_FILE)
     return config
 
 
@@ -17,7 +19,7 @@ def add_alias(alias, command):
     if not config.has_section(CMDLINE_SECTION):
         config.add_section(CMDLINE_SECTION)
     config.set(CMDLINE_SECTION, alias, command)
-    with open(ALIASES_PATH, 'wb') as config_file:
+    with open(ALIASES_FILE, 'wb') as config_file:
         config.write(config_file)
 
 
@@ -50,6 +52,7 @@ def main(args):
             print_alias(alias)
     else:
         print_aliases()
+
 
 if '__main__' == __name__:
     sys.exit(main(sys.argv[1:]))
