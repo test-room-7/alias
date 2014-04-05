@@ -25,6 +25,7 @@ def add_alias(alias, command):
         config.add_section(CMDLINE_SECTION)
     config.set(CMDLINE_SECTION, alias, command)
     save_config(config)
+    print 'Added %s' % alias
 
 
 def del_alias(alias):
