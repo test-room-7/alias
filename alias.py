@@ -1,5 +1,6 @@
 import os
 import ConfigParser
+import re
 import subprocess
 import sys
 
@@ -7,6 +8,8 @@ CMDLINE_SECTION = 'cmd.exe'
 ALIASES_FILE = os.path.expandvars('%ALIASES_FILE%')
 if not ALIASES_FILE:
     ALIASES_FILE = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini')
+
+param_pattern = r'\$[0-9\*]'
 
 
 def get_config():
@@ -32,6 +35,8 @@ def add_alias(alias, command):
     config.set(CMDLINE_SECTION, alias, command)
     save_config(config)
     reload_aliases()
+    if not re.search(param_pattern, command):
+        print 'Warning: $* or $1..9 is missing'
     print 'Added %s' % alias
 
 
