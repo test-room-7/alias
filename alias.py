@@ -32,11 +32,12 @@ def add_alias(alias, command):
     config = get_config()
     if not config.has_section(CMDLINE_SECTION):
         config.add_section(CMDLINE_SECTION)
+    if not re.search(param_pattern, command):
+        print 'Warning: $* or $1..9 is missing'
+        command = '{0} $*'.format(command) 
     config.set(CMDLINE_SECTION, alias, command)
     save_config(config)
     reload_aliases()
-    if not re.search(param_pattern, command):
-        print 'Warning: $* or $1..9 is missing'
     print 'Added %s' % alias
 
 
