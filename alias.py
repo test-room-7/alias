@@ -69,11 +69,18 @@ def print_alias(alias):
         print 'Unknown alias: %s' % alias
 
 
+def parse_alias(string):
+    alias, command = string.split('=', 1)
+    alias = alias.strip()
+    command = command.strip()
+    return alias, command
+
+
 def main(args):
     if args:
         param = ' '.join(args)
         if '=' in param:
-            alias, command = param.split('=', 1)
+            alias, command = parse_alias(param)
             if command:
                 add_alias(alias, command)
             else:
