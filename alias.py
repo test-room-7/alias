@@ -5,13 +5,28 @@ import subprocess
 import sys
 
 from argparse import ArgumentParser
+from argparse import RawTextHelpFormatter
 
 CMDLINE_SECTION = 'cmd.exe'
 ALIASES_FILE = os.path.expandvars('%ALIASES_FILE%')
 if not ALIASES_FILE:
-    ALIASES_FILE = os.path.expandvars(r'%USERPROFILE%\Documents\Scripts\aliases.ini')
+    ALIASES_FILE = os.path.expandvars(
+        r'%USERPROFILE%\Documents\Scripts\aliases.ini')
 
 param_pattern = r'\$[0-9\*]'
+
+DESCRIPTION = '''Manage your aliases.
+
+Add alias:
+  > alias gdi=git diff $*
+
+Remove alias:
+  > alias gdi=
+
+Show aliases:
+  > alias
+  > alias --verbose
+'''
 
 
 def get_config():
@@ -93,8 +108,10 @@ def parse_alias(string):
 
 
 def main():
-    parser = ArgumentParser()
-    parser.add_argument('--verbose', action='store_true', help='Show verbosed alias list')
+    parser = ArgumentParser(description=DESCRIPTION,
+                            formatter_class=RawTextHelpFormatter)
+    parser.add_argument('--verbose', action='store_true',
+                        help='Show verbosed alias list')
     args, params = parser.parse_known_args()
 
     if params:
