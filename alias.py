@@ -4,6 +4,8 @@ import re
 import subprocess
 import sys
 
+from argparse import ArgumentParser
+
 CMDLINE_SECTION = 'cmd.exe'
 ALIASES_FILE = os.path.expandvars('%ALIASES_FILE%')
 if not ALIASES_FILE:
@@ -52,11 +54,15 @@ def del_alias(alias):
         print 'Unknown alias: %s' % alias
 
 
-def print_aliases():
+def print_aliases(verbose):
     config = get_config()
     if config.has_section(CMDLINE_SECTION):
         opts = sorted(config.options(CMDLINE_SECTION))
-        print ', '.join(opts)
+        if verbose:
+            for opt in opts:
+                print '{0} = {1}'.format(opt, config.get(CMDLINE_SECTION, opt))
+        else:
+            print ', '.join(opts)
     else:
         print 'No aliases'
 
@@ -86,21 +92,25 @@ def parse_alias(string):
     return alias, command
 
 
-def main(args):
-    if args:
-        param = ' '.join(args)
-        if '=' in param:
-            alias, command = parse_alias(param)
+def main():
+    parser = ArgumentParser()
+    parser.add_argument('--verbose', action='store_true', help='Show verbosed alias list')
+    args, params = parser.parse_known_args()
+
+    if params:
+        string = ' '.join(params)
+        if '=' in string:
+            alias, command = parse_alias(string)
             if command:
                 add_alias(alias, command)
             else:
                 del_alias(alias)
         else:
-            alias = param
+            alias = string
             print_alias(alias)
     else:
-        print_aliases()
+        print_aliases(args.verbose)
 
 
 if '__main__' == __name__:
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
