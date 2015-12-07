@@ -34,7 +34,7 @@ def add_alias(alias, command):
         config.add_section(CMDLINE_SECTION)
     if not re.search(param_pattern, command):
         print 'Warning: $* or $1..9 is missing'
-        command = '{0} $*'.format(command) 
+        command = '{0} $*'.format(command)
     config.set(CMDLINE_SECTION, alias, command)
     save_config(config)
     reload_aliases()
@@ -63,10 +63,20 @@ def print_aliases():
 
 def print_alias(alias):
     config = get_config()
-    if config.has_option(CMDLINE_SECTION, alias):
-        print config.get(CMDLINE_SECTION, alias)
+    if config.has_section(CMDLINE_SECTION):
+        if config.has_option(CMDLINE_SECTION, alias):
+            print config.get(CMDLINE_SECTION, alias)
+        else:
+            aliases = []
+            for opt in sorted(config.options(CMDLINE_SECTION)):
+                if opt.startswith(alias):
+                    aliases.append(opt)
+            if len(aliases) > 1:
+                print ', '.join(aliases)
+            else:
+                print 'Unknown alias: %s' % alias
     else:
-        print 'Unknown alias: %s' % alias
+        print 'No aliases'
 
 
 def parse_alias(string):
