@@ -1,14 +1,20 @@
 View and set command aliases in Windows.
 
 ### How to setup?
-Just run `setup.reg`. After that you can manage your aliases.  
-Aliases file is located in `%USERPROFILE%\Documents\Scripts`.
+1. Run `setup.reg` and confirm adding information to Windows registry.
+2. Add `alias` directory to `%PATH%` environment variable.
+
+Aliases are stored in `%USERPROFILE%\Documents\Scripts\aliases.ini`.
 
 ### Managing aliases
 Get list of available aliases:
 ```cmd
 > alias
-adbwifi, alias, apktool, at
+apktool, gsh, gst
+> alias --verbose
+apktool = %SOFTWARE%\apktool\apktool.bat $*
+gsh = git show $*
+gst = git status --short --branch $*
 ```
 Add an alias:
 ```cmd
@@ -17,6 +23,8 @@ Added test
 ```
 Show the alias:
 ```cmd
+> alias g
+gsh, gst
 > alias test
 dir \b $*
 ```
