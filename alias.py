@@ -1,27 +1,24 @@
 import os
-import ConfigParser
 import re
-import subprocess
 import sys
 
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 
-CMDLINE_SECTION = 'cmd.exe'
-ALIASES_FILE = os.path.expandvars('%ALIASES_FILE%')
-if not ALIASES_FILE:
-    ALIASES_FILE = os.path.expandvars(
-        r'%USERPROFILE%\Documents\Scripts\aliases.ini')
+if 'ALIASES_DIR' in os.environ:
+    ALIASES_DIR = os.path.expandvars('%ALIASES_DIR%')
+else:
+    ALIASES_DIR = os.path.expandvars('%USERPROFILE%\\Documents\\Scripts\\Aliases')
 
-param_pattern = r'\$[0-9\*]'
+param_pattern = r'\%[0-9\*]'
 
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
-  > alias gdi=git diff $*
+  > alias gdf=git diff $*
 
 Remove alias:
-  > alias gdi=
+  > alias gdf=
 
 Show aliases:
   > alias
@@ -29,70 +26,68 @@ Show aliases:
 '''
 
 
-def get_config():
-    config = ConfigParser.RawConfigParser()
-    config.read(ALIASES_FILE)
-    return config
+def get_alias_path(alias):
+    return os.path.join(ALIASES_DIR, '{0}.bat'.format(alias))
 
 
-def save_config(config):
-    with open(ALIASES_FILE, 'wb') as config_file:
-        config.write(config_file)
+def get_alias_command(alias):
+    alias_fn = get_alias_path(alias)
+    with open(alias_fn, 'r') as fp:
+        return fp.readlines()[1]
 
 
-def reload_aliases():
-    doskey = 'doskey /macrofile=%s' % ALIASES_FILE
-    subprocess.call(doskey, shell=True)
+def get_alias_list():
+    return sorted(os.path.splitext(f)[0] for f in os.listdir(ALIASES_DIR))
+
+
+def is_alias_exists(alias):
+    alias_fn = get_alias_path(alias)
+    return os.os.path.exists(alias_fn)
 
 
 def add_alias(alias, command):
-    config = get_config()
-    if not config.has_section(CMDLINE_SECTION):
-        config.add_section(CMDLINE_SECTION)
-    if not re.search(param_pattern, command):
-        print 'Warning: $* or $1..9 is missing'
-        command = '{0} $*'.format(command)
-    config.set(CMDLINE_SECTION, alias, command)
-    save_config(config)
-    reload_aliases()
+    alias_fn = get_alias_path(alias)
+    if not os.path.exists(ALIASES_DIR):
+        os.makedirs(ALIASES_DIR)
+    with open(alias_fn, 'w') as fp:
+        if not re.search(param_pattern, command):
+            print 'Warning: %* or %1..9 is missing'
+            # command = '{0} %*'.format(command)
+        fp.write('@echo off\n')
+        fp.write(command)
+
     print 'Added %s' % alias
 
 
 def del_alias(alias):
-    config = get_config()
-    if config.has_option(CMDLINE_SECTION, alias):
-        config.remove_option(CMDLINE_SECTION, alias)
-        save_config(config)
-        reload_aliases()
+    if is_alias_exists(alias):
+        alias_fn = get_alias_path(alias)
+        os.remove(alias_fn)
         print 'Removed %s' % alias
     else:
         print 'Unknown alias: %s' % alias
 
 
 def print_aliases(verbose):
-    config = get_config()
-    if config.has_section(CMDLINE_SECTION):
-        opts = sorted(config.options(CMDLINE_SECTION))
+    if os.path.exists(ALIASES_DIR):
+        aliases = get_alias_list()
         if verbose:
-            for opt in opts:
-                print '{0} = {1}'.format(opt, config.get(CMDLINE_SECTION, opt))
+            for alias in aliases:
+                command = get_alias_command(alias)
+                print '{0} = {1}'.format(alias, command)
         else:
-            print ', '.join(opts)
+            print ', '.join(aliases)
     else:
         print 'No aliases'
 
 
 def print_alias(alias):
-    config = get_config()
-    if config.has_section(CMDLINE_SECTION):
-        if config.has_option(CMDLINE_SECTION, alias):
-            print config.get(CMDLINE_SECTION, alias)
+    if os.path.exists(ALIASES_DIR):
+        if is_alias_exists(alias):
+            print get_alias_command(alias)
         else:
-            aliases = []
-            for opt in sorted(config.options(CMDLINE_SECTION)):
-                if opt.startswith(alias):
-                    aliases.append(opt)
-            if len(aliases) > 1:
+            aliases = [a for a in get_alias_list() if a.startswith(alias)]
+            if len(aliases) >= 1:
                 print ', '.join(aliases)
             else:
                 print 'Unknown alias: %s' % alias
@@ -107,12 +102,16 @@ def parse_alias(string):
     return alias, command
 
 
-def main():
-    parser = ArgumentParser(description=DESCRIPTION,
+def create_arg_parser():
+    arg_parser = ArgumentParser(description=DESCRIPTION,
                             formatter_class=RawTextHelpFormatter)
-    parser.add_argument('--verbose', action='store_true',
+    arg_parser.add_argument('--verbose', action='store_true',
                         help='Show verbosed alias list')
-    args, params = parser.parse_known_args()
+    return arg_parser
+
+
+def parse_args(arg_parser):
+    args, params = arg_parser.parse_known_args()
 
     if params:
         string = ' '.join(params)
@@ -127,6 +126,12 @@ def main():
             print_alias(alias)
     else:
         print_aliases(args.verbose)
+
+
+def main():
+    arg_parser = create_arg_parser()
+    parse_args(arg_parser)
+    return 0
 
 
 if '__main__' == __name__:

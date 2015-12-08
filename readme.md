@@ -1,10 +1,9 @@
 View and set command aliases in Windows.
 
 ### How to setup?
-1. Run `setup.reg` and confirm adding information to Windows registry.
-2. Add `alias` directory to `%PATH%` environment variable.
+Just run `setup.py`.
 
-Aliases are stored in `%USERPROFILE%\Documents\Scripts\aliases.ini`.
+By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`.
 
 ### Managing aliases
 Get list of available aliases:
@@ -12,13 +11,13 @@ Get list of available aliases:
 > alias
 apktool, gsh, gst
 > alias --verbose
-apktool = %SOFTWARE%\apktool\apktool.bat $*
+apktool = %SOFTWARE%\apktool\apktool.bat %*
 gsh = git show $*
-gst = git status --short --branch $*
+gst = git status --short --branch %*
 ```
 Add an alias:
 ```cmd
-> alias test=dir \b $*
+> alias test=dir \b %*
 Added test
 ```
 Show the alias:
@@ -26,7 +25,7 @@ Show the alias:
 > alias g
 gsh, gst
 > alias test
-dir \b $*
+dir \b %*
 ```
 Remove the alias:
 ```cmd
