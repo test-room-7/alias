@@ -20,7 +20,7 @@ SETUP_PROMPT = '`alias` is not properly insalled. Do you want to fix it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
-  > alias gdf=git diff $*
+  > alias gdf=git diff %*
 
 Remove alias:
   > alias gdf=
