@@ -143,7 +143,7 @@ def parse_alias(string):
 
 
 def create_arg_parser():
-    arg_parser = ArgumentParser(description=DESCRIPTION,
+    arg_parser = ArgumentParser(prog='alias', description=DESCRIPTION,
                             formatter_class=RawTextHelpFormatter)
     arg_parser.add_argument('--verbose', action='store_true',
                         help='Show verbosed alias list')
