@@ -1,3 +1,4 @@
+import glob
 import os
 import re
 import sys
@@ -11,6 +12,9 @@ ALIASES_DIR_VAR = 'ALIASES_DIR'
 aliases_dir = os.path.expandvars(ALIASES_DIR_MACRO)
 
 param_pattern = r'\%[0-9\*]'
+
+ALIAS_WILDCARD = '*.cmd'
+ALIAS_EXTENSION = '.cmd'
 
 SETUP_PROMPT = '`alias` is not properly insalled. Do you want to fix it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
@@ -61,7 +65,7 @@ def check_env_vars():
 
 
 def get_alias_path(alias):
-    return os.path.join(aliases_dir, '{0}.cmd'.format(alias))
+    return os.path.join(aliases_dir, '{0}{1}'.format(alias, ALIAS_EXTENSION))
 
 
 def get_alias_command(alias):
@@ -71,7 +75,9 @@ def get_alias_command(alias):
 
 
 def get_alias_list():
-    return sorted(os.path.splitext(f)[0] for f in os.listdir(aliases_dir))
+    path = os.path.join(aliases_dir, ALIAS_WILDCARD)
+    return sorted(
+        os.path.splitext(os.path.basename(f))[0] for f in glob.iglob(path))
 
 
 def is_alias_exists(alias):
