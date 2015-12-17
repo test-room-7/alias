@@ -32,10 +32,11 @@ Show aliases:
 
 
 def is_install_allowed():
-    answer = ''
-    while answer not in 'YyNn':
+    while True:
         answer = raw_input(SETUP_PROMPT)
         answer = answer if answer else 'N'
+        if answer in 'YyNn':
+            break
     return answer in 'Yy'
 
 
