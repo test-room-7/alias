@@ -1,11 +1,11 @@
 View and set command aliases in Windows.
 
-### How to setup?
-Just run `setup.py`.
+## How to setup?
+Just cd in `alias` dir and run `alias`. It ask you for installation if neccessary.
 
 By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`.
 
-### Managing aliases
+## Managing aliases
 Get list of available aliases:
 ```cmd
 > alias
@@ -33,7 +33,14 @@ Remove the alias:
 Removed test
 ```
 
-### External links
+## Environment variables
+`alias` changes two variables:
+1. `%ALIASES_DIR%`  
+Directory where aliases are stored.
+2. `%PATH%`  
+Adds `%ALIASES_DIR%` to `%PATH%`.
+
+## External links
 `aliases.ini` [example][1]
 
 [1]: https://raw.github.com/alexesprit/bat-scripts/master/aliases.ini
