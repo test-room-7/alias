@@ -93,21 +93,21 @@ def add_alias(alias, command):
         os.makedirs(aliases_dir)
     with open(alias_fn, 'w') as fp:
         if not re.search(param_pattern, command):
-            print 'Warning: %* or %1..9 is missing'
+            print('Warning: %* or %1..9 is missing')
             # command = '{0} %*'.format(command)
         fp.write('@echo off\n')
         fp.write(command)
 
-    print 'Added %s' % alias
+    print('Added %s' % alias)
 
 
 def del_alias(alias):
     if is_alias_exists(alias):
         alias_fn = get_alias_path(alias)
         os.remove(alias_fn)
-        print 'Removed %s' % alias
+        print('Removed %s' % alias)
     else:
-        print 'Unknown alias: %s' % alias
+        print('Unknown alias: %s' % alias)
 
 
 def print_aliases(verbose):
@@ -116,25 +116,25 @@ def print_aliases(verbose):
         if verbose:
             for alias in aliases:
                 command = get_alias_command(alias)
-                print '{0} = {1}'.format(alias, command)
+                print('{0} = {1}'.format(alias, command))
         else:
-            print ', '.join(aliases)
+            print(', '.join(aliases))
     else:
-        print 'No aliases'
+        print('No aliases')
 
 
 def print_alias(alias):
     if os.path.exists(aliases_dir):
         if is_alias_exists(alias):
-            print get_alias_command(alias)
+            print(get_alias_command(alias))
         else:
             aliases = [a for a in get_alias_list() if a.startswith(alias)]
             if len(aliases) >= 1:
-                print ', '.join(aliases)
+                print(', '.join(aliases))
             else:
-                print 'Unknown alias: %s' % alias
+                print('Unknown alias: %s' % alias)
     else:
-        print 'No aliases'
+        print('No aliases')
 
 
 def parse_alias(string):
