@@ -32,6 +32,7 @@ Show aliases:
 
 
 def is_install_allowed():
+    answer = 'N'
     while True:
         answer = raw_input(SETUP_PROMPT)
         answer = answer if answer else 'N'
@@ -56,7 +57,7 @@ def check_env_vars():
         aliases_dir = os.environ[ALIASES_DIR_VAR]
 
     path = os.environ['PATH']
-    if not aliases_dir in path:
+    if aliases_dir not in path:
         path = '{0};{1}'.format(path, aliases_dir)
         set_env_var('PATH', path)
 
@@ -145,9 +146,9 @@ def parse_alias(string):
 
 def create_arg_parser():
     arg_parser = ArgumentParser(prog='alias', description=DESCRIPTION,
-                            formatter_class=RawTextHelpFormatter)
+                                formatter_class=RawTextHelpFormatter)
     arg_parser.add_argument('--verbose', action='store_true',
-                        help='Show verbosed alias list')
+                            help='Show verbosed alias list')
     return arg_parser
 
 
