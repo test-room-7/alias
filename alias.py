@@ -9,8 +9,6 @@ from argparse import RawTextHelpFormatter
 ALIASES_DIR_MACRO = '%USERPROFILE%\\Documents\\Scripts\\Aliases'
 ALIASES_DIR_VAR = 'ALIASES_DIR'
 
-aliases_dir = os.path.expandvars(ALIASES_DIR_MACRO)
-
 param_pattern = r'\%[0-9\*]'
 
 ALIAS_WILDCARD = '*.cmd'
@@ -46,15 +44,13 @@ def set_env_var(var, value):
 
 
 def check_env_vars():
-    global aliases_dir
-
     if ALIASES_DIR_VAR not in os.environ:
         if not is_install_allowed():
             return
 
-        set_env_var(ALIASES_DIR_VAR, aliases_dir)
-    else:
-        aliases_dir = os.environ[ALIASES_DIR_VAR]
+        set_env_var(ALIASES_DIR_VAR, ALIASES_DIR_MACRO)
+
+    aliases_dir = get_aliases_dir()
 
     path = os.environ['PATH']
     if aliases_dir not in path:
@@ -66,7 +62,15 @@ def check_env_vars():
         add_alias('alias', command)
 
 
+def get_aliases_dir():
+    aliases_dir = os.getenv(ALIASES_DIR_VAR)
+    if not aliases_dir:
+        aliases_dir = os.path.expandvars(ALIASES_DIR_MACRO)
+    return aliases_dir
+
+
 def get_alias_path(alias):
+    aliases_dir = get_aliases_dir()
     return os.path.join(aliases_dir, '{0}{1}'.format(alias, ALIAS_EXTENSION))
 
 
@@ -77,9 +81,13 @@ def get_alias_command(alias):
 
 
 def get_alias_list():
-    path = os.path.join(aliases_dir, ALIAS_WILDCARD)
-    return sorted(
-        os.path.splitext(os.path.basename(f))[0] for f in glob.iglob(path))
+    aliases_dir = get_aliases_dir()
+    if os.path.exists(aliases_dir):
+        path = os.path.join(aliases_dir, ALIAS_WILDCARD)
+        return sorted(
+            os.path.splitext(os.path.basename(f))[0] for f in glob.iglob(path))
+    else:
+        return []
 
 
 def is_alias_exists(alias):
@@ -95,12 +103,15 @@ def is_alias_valid(alias):
 
 
 def print_aliases(aliases, verbose):
-    if verbose:
-        for alias in aliases:
-            command = get_alias_command(alias)
-            print('{0} = {1}'.format(alias, command))
+    if aliases:
+        if verbose:
+            for alias in aliases:
+                command = get_alias_command(alias)
+                print('{0} = {1}'.format(alias, command))
+        else:
+            print(', '.join(aliases))
     else:
-        print(', '.join(aliases))
+        print('No aliases')
 
 
 def add_alias(alias, command):
@@ -130,25 +141,19 @@ def del_alias(alias):
 
 
 def show_aliases(verbose):
-    if os.path.exists(aliases_dir):
-        aliases = get_alias_list()
-        print_aliases(aliases, verbose)
-    else:
-        print('No aliases')
+    aliases = get_alias_list()
+    print_aliases(aliases, verbose)
 
 
 def show_alias(alias, verbose):
-    if os.path.exists(aliases_dir):
-        if is_alias_exists(alias):
-            print(get_alias_command(alias))
-        else:
-            aliases = [a for a in get_alias_list() if a.startswith(alias)]
-            if len(aliases) > 0:
-                print_aliases(aliases, verbose)
-            else:
-                print('Unknown alias: %s' % alias)
+    if is_alias_exists(alias):
+        print(get_alias_command(alias))
     else:
-        print('No aliases')
+        aliases = [a for a in get_alias_list() if a.startswith(alias)]
+        if len(aliases) > 0:
+            print_aliases(aliases, verbose)
+        else:
+            print('Unknown alias: %s' % alias)
 
 
 def parse_alias(string):
