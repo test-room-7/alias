@@ -87,6 +87,15 @@ def is_alias_exists(alias):
     return os.path.exists(alias_fn)
 
 
+def print_aliases(aliases, verbose):
+    if verbose:
+        for alias in aliases:
+            command = get_alias_command(alias)
+            print('{0} = {1}'.format(alias, command))
+    else:
+        print(', '.join(aliases))
+
+
 def add_alias(alias, command):
     alias_fn = get_alias_path(alias)
     if not os.path.exists(aliases_dir):
@@ -110,27 +119,22 @@ def del_alias(alias):
         print('Unknown alias: %s' % alias)
 
 
-def print_aliases(verbose):
+def show_aliases(verbose):
     if os.path.exists(aliases_dir):
         aliases = get_alias_list()
-        if verbose:
-            for alias in aliases:
-                command = get_alias_command(alias)
-                print('{0} = {1}'.format(alias, command))
-        else:
-            print(', '.join(aliases))
+        print_aliases(aliases, verbose)
     else:
         print('No aliases')
 
 
-def print_alias(alias):
+def show_alias(alias, verbose):
     if os.path.exists(aliases_dir):
         if is_alias_exists(alias):
             print(get_alias_command(alias))
         else:
             aliases = [a for a in get_alias_list() if a.startswith(alias)]
-            if len(aliases) >= 1:
-                print(', '.join(aliases))
+            if len(aliases) > 0:
+                print_aliases(aliases, verbose)
             else:
                 print('Unknown alias: %s' % alias)
     else:
@@ -165,9 +169,9 @@ def parse_args(arg_parser):
                 del_alias(alias)
         else:
             alias = string
-            print_alias(alias)
+            show_alias(alias, args.verbose)
     else:
-        print_aliases(args.verbose)
+        show_aliases(args.verbose)
 
 
 def main():
