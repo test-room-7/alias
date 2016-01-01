@@ -29,6 +29,10 @@ Show aliases:
 '''
 
 
+def is_alias_installed():
+    return ALIASES_DIR_VAR in os.environ
+
+
 def is_install_allowed():
     answer = 'N'
     while True:
@@ -43,14 +47,9 @@ def set_env_var(var, value):
     os.system('setx {0} "{1}"'.format(var, value))
 
 
-def check_env_vars():
-    if ALIASES_DIR_VAR not in os.environ:
-        if not is_install_allowed():
-            return
-
-        set_env_var(ALIASES_DIR_VAR, ALIASES_DIR_MACRO)
-
+def install_alias():
     aliases_dir = get_aliases_dir()
+    set_env_var(ALIASES_DIR_VAR, aliases_dir)
 
     path = os.environ['PATH']
     if aliases_dir not in path:
@@ -180,6 +179,7 @@ def parse_args(arg_parser):
             if args.verbose:
                 arg_parser.error(
                     'argument --verbose: not allowed in this context')
+                return
             alias, command = parse_alias(string)
             if command:
                 add_alias(alias, command)
@@ -193,7 +193,10 @@ def parse_args(arg_parser):
 
 
 def main():
-    check_env_vars()
+    if not is_alias_installed():
+        if not is_install_allowed():
+            return 1
+        install_alias()
 
     arg_parser = create_arg_parser()
     parse_args(arg_parser)
