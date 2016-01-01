@@ -162,6 +162,9 @@ def parse_args(arg_parser):
     if params:
         string = ' '.join(params)
         if '=' in string:
+            if args.verbose:
+                arg_parser.error(
+                    'argument --verbose: not allowed in this context')
             alias, command = parse_alias(string)
             if command:
                 add_alias(alias, command)
