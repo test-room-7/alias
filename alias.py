@@ -14,7 +14,7 @@ param_pattern = r'\%[0-9\*]'
 ALIAS_WILDCARD = '*.cmd'
 ALIAS_EXTENSION = '.cmd'
 
-SETUP_PROMPT = '`alias` is not properly insalled. Do you want to fix it (y/N)? '
+SETUP_PROMPT = 'alias is not properly insalled. Do you want to fix it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
@@ -157,6 +157,18 @@ def show_alias(alias, verbose):
             print('Unknown alias: %s' % alias)
 
 
+def search_aliases(text, verbose):
+    aliases = []
+    for alias in get_alias_list():
+        command = get_alias_command(alias)
+        if text in command:
+            aliases.append(alias)
+    if aliases:
+        print_aliases(aliases, verbose)
+    else:
+        print('No aliases found')
+
+
 def parse_alias(string):
     alias, command = string.split('=', 1)
     alias = alias.strip()
@@ -167,6 +179,8 @@ def parse_alias(string):
 def create_arg_parser():
     arg_parser = ArgumentParser(prog='alias', description=DESCRIPTION,
                                 formatter_class=RawTextHelpFormatter)
+    arg_parser.add_argument('-s', '--search', metavar='TEXT',
+                            help='Search for text in alias commands')
     arg_parser.add_argument('--verbose', action='store_true',
                             help='Show verbosed alias list')
     return arg_parser
@@ -190,6 +204,8 @@ def parse_args(arg_parser):
         else:
             alias = string
             show_alias(alias, args.verbose)
+    elif args.search:
+        search_aliases(args.search, args.verbose)
     else:
         show_aliases(args.verbose)
 
