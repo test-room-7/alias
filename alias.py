@@ -21,7 +21,7 @@ Add alias:
   > alias gdf=git diff %*
 
 Remove alias:
-  > alias gdf=
+  > alias -d gdf
 
 Show aliases:
   > alias
@@ -179,6 +179,8 @@ def parse_alias(string):
 def create_arg_parser():
     arg_parser = ArgumentParser(prog='alias', description=DESCRIPTION,
                                 formatter_class=RawTextHelpFormatter)
+    arg_parser.add_argument('-d', '--delete', metavar='ALIAS',
+                            help='Delete the alias')
     arg_parser.add_argument('-s', '--search', metavar='TEXT',
                             help='Search for text in alias commands')
     arg_parser.add_argument('--verbose', action='store_true',
@@ -200,12 +202,14 @@ def parse_args(arg_parser):
             if command:
                 add_alias(alias, command)
             else:
-                del_alias(alias)
+                arg_parser.error('cannot add empty alias')
         else:
             alias = string
             show_alias(alias, args.verbose)
     elif args.search:
         search_aliases(args.search, args.verbose)
+    elif args.delete:
+        del_alias(args.delete)
     else:
         show_aliases(args.verbose)
 
