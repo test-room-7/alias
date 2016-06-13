@@ -186,7 +186,7 @@ def create_arg_parser():
     arg_parser.add_argument('-d', '--delete', metavar='ALIAS',
                             help='Delete the alias')
     arg_parser.add_argument('-s', '--search', metavar='TEXT',
-                            help='Search for text in alias commands')
+                            help='Search for the text in alias commands')
     arg_parser.add_argument('-v', '--verbose', action='store_true',
                             help='Verbosed output')
     return arg_parser

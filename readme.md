@@ -1,16 +1,16 @@
 View and set command aliases in Windows.
 
 ## How to setup?
-Just cd in `alias` dir and run `alias`. It ask you for installation if neccessary.
+Just cd in `alias` dir and run `alias`. It will ask you for installation if neccessary.
 
-By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`. You can set directory to store aliases by changing environment variable called `%ALIASES_DIR%`.
+By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`. You can set the directory to store aliases by changing the environment variable called `%ALIASES_DIR%`.
 
 ## Managing aliases
-Get list of available aliases:
+Get the list of available aliases:
 ```cmd
 > alias
 apktool, gsh, gst
-> alias --verbose
+> alias -v
 apktool = %SOFTWARE%\apktool\apktool.bat %*
 gsh = git show $*
 gst = git status --short --branch %*
@@ -27,9 +27,17 @@ gsh, gst
 > alias test
 dir \b %*
 ```
+Search for a text in alias commands:
+```cmd
+> alias -s apk
+baksmali, smali
+> alias -s apk -v
+baksmali = %SOFTWARE%\apktool\apktool.bat d %*
+smali = %SOFTWARE%\apktool\apktool.bat b %*
+```
 Remove the alias:
 ```cmd
-> alias test=
+> alias -d test
 Removed test
 ```
 
