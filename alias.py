@@ -25,7 +25,7 @@ Remove alias:
 
 Show aliases:
   > alias
-  > alias --verbose
+  > alias -v
 '''
 
 
@@ -187,8 +187,8 @@ def create_arg_parser():
                             help='Delete the alias')
     arg_parser.add_argument('-s', '--search', metavar='TEXT',
                             help='Search for text in alias commands')
-    arg_parser.add_argument('--verbose', action='store_true',
-                            help='Show verbosed alias list')
+    arg_parser.add_argument('-v', '--verbose', action='store_true',
+                            help='Verbosed output')
     return arg_parser
 
 
@@ -200,7 +200,7 @@ def parse_args(arg_parser):
         if '=' in string:
             if args.verbose:
                 arg_parser.error(
-                    'argument --verbose: not allowed in this context')
+                    'argument -v\--verbose: not allowed in this context')
                 return
             alias, command = parse_alias(string)
             if command:
