@@ -117,15 +117,16 @@ def print_aliases(aliases, verbose):
 
 def add_alias(alias, command):
     if is_alias_valid(alias):
+        if not re.search(param_pattern, command):
+            print('Warning: %* or %1..9 is missing')
+            # command = '{0} %*'.format(command)
+
         aliases_dir = get_aliases_dir()
         if not os.path.exists(aliases_dir):
             os.makedirs(aliases_dir)
 
         alias_fn = get_alias_path(alias)
         with open(alias_fn, 'w') as fp:
-            if not re.search(param_pattern, command):
-                print('Warning: %* or %1..9 is missing')
-                # command = '{0} %*'.format(command)
             fp.write('@echo off\n')
             fp.write(command)
 
