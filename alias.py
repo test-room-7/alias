@@ -19,7 +19,7 @@ DESCRIPTION = '''Manage your aliases.
 Add alias:
   > alias gdf=git diff %*
 
-Remove alias:
+Delete alias:
   > alias -d gdf
 
 Show aliases:
@@ -144,7 +144,7 @@ def del_alias(alias):
     if is_alias_exists(alias):
         alias_fn = get_alias_path(alias)
         os.remove(alias_fn)
-        print('Removed {0}'.format(alias))
+        print('Deleted {0}'.format(alias))
     else:
         print('Unknown alias: {0}'.format(alias))
 
