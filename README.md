@@ -42,8 +42,12 @@ Removed test
 ```
 
 ## Environment variables
-`alias` changes two variables:  
-1. `%ALIASES_DIR%`  
-Directory where aliases are stored.  
-2. `%PATH%`  
+`alias` changes two variables:
+1. `%ALIASES_DIR%`
+Directory where aliases are stored.
+2. `%PATH%`
 Adds `%ALIASES_DIR%` to `%PATH%`.
+
+## License
+
+Licensed under [MIT License](LICENSE.md).
