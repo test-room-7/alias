@@ -3,8 +3,7 @@ import os
 import re
 import sys
 
-from argparse import ArgumentParser
-from argparse import RawTextHelpFormatter
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 ALIASES_DIR_MACRO = '%USERPROFILE%\\Documents\\Scripts\\Aliases'
 ALIASES_DIR_VAR = 'ALIASES_DIR'
@@ -89,8 +88,7 @@ def get_alias_list():
         path = os.path.join(aliases_dir, ALIAS_WILDCARD)
         return sorted(
             os.path.splitext(os.path.basename(f))[0] for f in glob.iglob(path))
-    else:
-        return []
+    return []
 
 
 def is_alias_exists(alias):
@@ -99,7 +97,7 @@ def is_alias_exists(alias):
 
 
 def is_alias_valid(alias):
-    for char in '\/:*?<>|"':
+    for char in r'\/:*?<>|"':
         if char in alias:
             return False
     return True
@@ -155,7 +153,7 @@ def show_alias(alias, verbose):
         print(get_alias_command(alias))
     else:
         aliases = [a for a in get_alias_list() if a.startswith(alias)]
-        if len(aliases) > 0:
+        if not aliases:
             print_aliases(aliases, verbose)
         else:
             print('Unknown alias: %s' % alias)
@@ -200,7 +198,7 @@ def parse_args(arg_parser):
         if '=' in string:
             if args.verbose:
                 arg_parser.error(
-                    'argument -v\--verbose: not allowed in this context')
+                    'argument -v\\--verbose: not allowed in this context')
                 return
             alias, command = parse_alias(string)
             if command:
@@ -229,5 +227,5 @@ def main():
     return 0
 
 
-if '__main__' == __name__:
+if __name__ == '__main__':
     sys.exit(main())
