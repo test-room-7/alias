@@ -126,11 +126,16 @@ def add_alias(alias, command):
             os.makedirs(aliases_dir)
 
         alias_fn = get_alias_path(alias)
+        is_new_alias = not os.path.exists(alias_fn)
+
         with open(alias_fn, 'w') as fp:
             fp.write('@echo off\n')
             fp.write(command)
 
-        print('Added {0}'.format(alias))
+        if is_new_alias:
+            print('Added {0}'.format(alias))
+        else:
+            print('Updated {0}'.format(alias))
     else:
         print('Invalid alias name: {0}'.format(alias))
 
