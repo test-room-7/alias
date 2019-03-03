@@ -129,7 +129,7 @@ def add_alias(alias, command):
             fp.write('@echo off\n')
             fp.write(command)
 
-        print('Added %s' % alias)
+        print('Added {0}'.format(alias))
     else:
         print('Invalid alias name: {0}'.format(alias))
 
@@ -138,9 +138,9 @@ def del_alias(alias):
     if is_alias_exists(alias):
         alias_fn = get_alias_path(alias)
         os.remove(alias_fn)
-        print('Removed %s' % alias)
+        print('Removed {0}'.format(alias))
     else:
-        print('Unknown alias: %s' % alias)
+        print('Unknown alias: {0}'.format(alias))
 
 
 def show_aliases(verbose):
@@ -156,7 +156,7 @@ def show_alias(alias, verbose):
         if not aliases:
             print_aliases(aliases, verbose)
         else:
-            print('Unknown alias: %s' % alias)
+            print('Unknown alias: {0}'.format(alias))
 
 
 def search_aliases(text, verbose):
