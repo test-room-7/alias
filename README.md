@@ -35,10 +35,10 @@ baksmali, smali
 baksmali = %SOFTWARE%\apktool\apktool.bat d %*
 smali = %SOFTWARE%\apktool\apktool.bat b %*
 ```
-Remove the alias:
+Delete the alias:
 ```cmd
 > alias -d test
-Removed test
+Deleted test
 ```
 
 ## Environment variables
