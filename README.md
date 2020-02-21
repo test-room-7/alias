@@ -1,3 +1,5 @@
+# alias
+
 View and set command aliases in Windows.
 
 ## How to setup?
