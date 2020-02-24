@@ -33,10 +33,6 @@ def is_alias_installed():
 
 
 def is_install_allowed():
-    # Python 3 compatibility
-    if hasattr(__builtins__, 'raw_input'):
-        input = raw_input  # NOQA
-
     answer = 'N'
     while True:
         answer = input(SETUP_PROMPT)
