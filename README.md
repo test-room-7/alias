@@ -1,4 +1,4 @@
-# alias ![Test status][workflowBadge]
+# alias ![Version][githubBadge] ![Test status][workflowBadge]
 
 View and set command aliases in Windows.
 
@@ -58,3 +58,4 @@ Adds `%ALIASES_DIR%` to `%PATH%`.
 This project is licensed under the [MIT License](LICENSE.md).
 
 [workflowBadge]: https://img.shields.io/github/workflow/status/alexesprit/alias/Test?label=Test
+[githubBadge]: https://img.shields.io/github/v/release/alexesprit/alias
