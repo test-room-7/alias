@@ -1,13 +1,15 @@
-# alias
+# alias ![Test status][workflowBadge]
 
 View and set command aliases in Windows.
 
-## How to setup?
+## Setup
+
 Just cd in `alias` dir and run `alias`. It will ask you for installation if neccessary.
 
 By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`. You can set the directory to store aliases by changing the environment variable called `%ALIASES_DIR%`.
 
 ## Managing aliases
+
 Get the list of available aliases:
 ```cmd
 > alias
@@ -44,6 +46,7 @@ Deleted test
 ```
 
 ## Environment variables
+
 `alias` changes two variables:
 1. `%ALIASES_DIR%`
 Directory where aliases are stored.
@@ -52,4 +55,6 @@ Adds `%ALIASES_DIR%` to `%PATH%`.
 
 ## License
 
-Licensed under [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](LICENSE.md).
+
+[workflowBadge]: https://img.shields.io/github/workflow/status/alexesprit/alias/Test?label=Test
