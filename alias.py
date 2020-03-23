@@ -13,7 +13,7 @@ param_pattern = r'\%[0-9\*]'
 ALIAS_WILDCARD = '*.cmd'
 ALIAS_EXTENSION = '.cmd'
 
-SETUP_PROMPT = 'alias is not properly insalled. Do you want to fix it (y/N)? '
+SETUP_PROMPT = 'alias is not installed. Do you want to install it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
