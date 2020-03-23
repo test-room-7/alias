@@ -46,7 +46,7 @@ def is_install_allowed():
 
 
 def set_env_var(var, value):
-    os.system('setx {0} "{1}"'.format(var, value))
+    os.system(f'setx {var} "{value}"')
 
 
 def install_alias():
@@ -55,11 +55,11 @@ def install_alias():
 
     path = os.environ['PATH']
     if aliases_dir not in path:
-        path = '{0};{1}'.format(path, aliases_dir)
+        path = f'{path};{aliases_dir}'
         set_env_var('PATH', path)
 
     if not is_alias_exists('alias'):
-        command = '{0} %*'.format(sys.argv[0])
+        command = f'{sys.argv[0]} %*'
         add_alias('alias', command)
 
 
@@ -72,7 +72,7 @@ def get_aliases_dir():
 
 def get_alias_path(alias):
     aliases_dir = get_aliases_dir()
-    return os.path.join(aliases_dir, '{0}{1}'.format(alias, ALIAS_EXTENSION))
+    return os.path.join(aliases_dir, f'{alias}{ALIAS_EXTENSION}')
 
 
 def get_alias_command(alias):
@@ -107,7 +107,7 @@ def print_aliases(aliases, verbose):
         if verbose:
             for alias in aliases:
                 command = get_alias_command(alias)
-                print('{0} = {1}'.format(alias, command))
+                print(f'{alias} = {command}')
         else:
             print(', '.join(aliases))
     else:
@@ -118,7 +118,6 @@ def add_alias(alias, command):
     if is_alias_valid(alias):
         if not re.search(param_pattern, command):
             print('Warning: %* or %1..9 is missing')
-            # command = '{0} %*'.format(command)
 
         aliases_dir = get_aliases_dir()
         if not os.path.exists(aliases_dir):
@@ -132,20 +131,20 @@ def add_alias(alias, command):
             fp.write(command)
 
         if is_new_alias:
-            print('Added {0}'.format(alias))
+            print(f'Added {alias}')
         else:
-            print('Updated {0}'.format(alias))
+            print(f'Updated {alias}')
     else:
-        print('Invalid alias name: {0}'.format(alias))
+        print(f'Invalid alias name: {alias}')
 
 
 def del_alias(alias):
     if is_alias_exists(alias):
         alias_fn = get_alias_path(alias)
         os.remove(alias_fn)
-        print('Deleted {0}'.format(alias))
+        print(f'Deleted {alias}')
     else:
-        print('Unknown alias: {0}'.format(alias))
+        print(f'Unknown alias: {alias}')
 
 
 def show_aliases(verbose):
@@ -161,7 +160,7 @@ def show_alias(alias, verbose):
         if not aliases:
             print_aliases(aliases, verbose)
         else:
-            print('Unknown alias: {0}'.format(alias))
+            print(f'Unknown alias: {alias}')
 
 
 def search_aliases(text, verbose):
