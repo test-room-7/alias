@@ -5,6 +5,9 @@ import sys
 
 from argparse import ArgumentParser, RawTextHelpFormatter
 
+prog = 'alias'
+version = '1.0.0'
+
 ALIASES_DIR_MACRO = '%USERPROFILE%\\Documents\\Scripts\\Aliases'
 ALIASES_DIR_VAR = 'ALIASES_DIR'
 
@@ -13,7 +16,7 @@ param_pattern = r'\%[0-9\*]'
 ALIAS_WILDCARD = '*.cmd'
 ALIAS_EXTENSION = '.cmd'
 
-SETUP_PROMPT = 'alias is not installed. Do you want to install it (y/N)? '
+SETUP_PROMPT = f'{prog} is not installed. Do you want to install it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
@@ -181,7 +184,7 @@ def parse_alias(string):
 
 
 def create_arg_parser():
-    arg_parser = ArgumentParser(prog='alias', description=DESCRIPTION,
+    arg_parser = ArgumentParser(prog=prog, description=DESCRIPTION,
                                 formatter_class=RawTextHelpFormatter)
     arg_parser.add_argument('-d', '--delete', metavar='ALIAS',
                             help='Delete the alias')
@@ -189,6 +192,8 @@ def create_arg_parser():
                             help='Search for the text in alias commands')
     arg_parser.add_argument('-v', '--verbose', action='store_true',
                             help='Verbosed output')
+    arg_parser.add_argument('--version', action='version',
+                            version=f'{prog} v{version}')
     return arg_parser
 
 
