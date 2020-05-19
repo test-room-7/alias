@@ -1,10 +1,12 @@
 # alias ![Version][githubBadge] ![Test status][workflowBadge]
 
-View and set command aliases in Windows.
+Manage command aliases in Windows.
 
-## Setup
+## Installation
 
-Just cd in `alias` dir and run `alias`. It will ask you for installation if neccessary.
+```sh
+> pip install alias-windows
+```
 
 By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`. You can set the directory to store aliases by changing the environment variable called `%ALIASES_DIR%`.
 
