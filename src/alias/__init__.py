@@ -1,6 +1,6 @@
 import os
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 ALIASES_DIR_VAR = 'ALIASES_DIR'
 ALIASES_DIR_MACRO = '%USERPROFILE%\\Documents\\Scripts\\Aliases'
