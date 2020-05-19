@@ -1,4 +1,4 @@
-# alias ![Version][githubBadge] ![Test status][workflowBadge]
+# alias ![Version][PyPIBadge] ![Test status][WorkflowBadge]
 
 Manage command aliases in Windows.
 
@@ -57,7 +57,8 @@ Adds `%ALIASES_DIR%` to `%PATH%`.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License][License].
 
-[workflowBadge]: https://img.shields.io/github/workflow/status/alexesprit/alias/Test?label=Test
-[githubBadge]: https://img.shields.io/github/v/release/alexesprit/alias
+[License]: https://github.com/test-room-7/alias/blob/master/LICENSE.md
+[PyPIBadge]: https://img.shields.io/pypi/v/alias-windows
+[WorkflowBadge]: https://img.shields.io/github/workflow/status/alexesprit/alias/Test?label=Test
