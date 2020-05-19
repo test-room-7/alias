@@ -1,15 +1,12 @@
 import glob
 import os
 import re
-import sys
 
 from argparse import ArgumentParser, RawTextHelpFormatter
 
-prog = 'alias'
-version = '1.0.0'
+from alias import __version__, get_aliases_dir
 
-ALIASES_DIR_MACRO = '%USERPROFILE%\\Documents\\Scripts\\Aliases'
-ALIASES_DIR_VAR = 'ALIASES_DIR'
+prog = 'alias'
 
 param_pattern = r'\%[0-9\*]'
 
@@ -29,45 +26,6 @@ Show aliases:
   > alias
   > alias -v
 '''
-
-
-def is_alias_installed():
-    return ALIASES_DIR_VAR in os.environ
-
-
-def is_install_allowed():
-    answer = 'N'
-    while True:
-        answer = input(SETUP_PROMPT)
-        answer = answer if answer else 'N'
-        if answer in 'YyNn':
-            break
-    return answer in 'Yy'
-
-
-def set_env_var(var, value):
-    os.system(f'setx {var} "{value}"')
-
-
-def install_alias():
-    aliases_dir = get_aliases_dir()
-    set_env_var(ALIASES_DIR_VAR, aliases_dir)
-
-    path = os.environ['PATH']
-    if aliases_dir not in path:
-        path = f'{path};{aliases_dir}'
-        set_env_var('PATH', path)
-
-    if not is_alias_exists('alias'):
-        command = f'{sys.argv[0]} %*'
-        add_alias('alias', command)
-
-
-def get_aliases_dir():
-    aliases_dir = os.getenv(ALIASES_DIR_VAR)
-    if not aliases_dir:
-        aliases_dir = os.path.expandvars(ALIASES_DIR_MACRO)
-    return aliases_dir
 
 
 def get_alias_path(alias):
@@ -192,7 +150,7 @@ def create_arg_parser():
     arg_parser.add_argument('-v', '--verbose', action='store_true',
                             help='Verbosed output')
     arg_parser.add_argument('--version', action='version',
-                            version=f'{prog} v{version}')
+                            version=f'{prog} v{__version__}')
     return arg_parser
 
 
@@ -223,15 +181,6 @@ def parse_args(arg_parser):
 
 
 def main():
-    if not is_alias_installed():
-        if not is_install_allowed():
-            return 1
-        install_alias()
-
     arg_parser = create_arg_parser()
     parse_args(arg_parser)
     return 0
-
-
-if __name__ == '__main__':
-    sys.exit(main())
