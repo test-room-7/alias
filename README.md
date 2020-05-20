@@ -1,4 +1,4 @@
-# alias ![Version][PyPIBadge] ![Test status][WorkflowBadge]
+# alias [![Version][PyPIBadge]][PyPIUrl] [![Test status][WorkflowBadge]][WorkflowUrl]
 
 Manage command aliases in Windows.
 
@@ -61,4 +61,6 @@ This project is licensed under the [MIT License][License].
 
 [License]: https://github.com/test-room-7/alias/blob/master/LICENSE.md
 [PyPIBadge]: https://img.shields.io/pypi/v/alias-windows
+[PyPIUrl]: https://pypi.org/project/alias-windows/
 [WorkflowBadge]: https://img.shields.io/github/workflow/status/alexesprit/alias/Test?label=Test
+[WorkflowUrl]: https://github.com/test-room-7/alias/actions
