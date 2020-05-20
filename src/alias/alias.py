@@ -13,7 +13,6 @@ param_pattern = r'\%[0-9\*]'
 ALIAS_WILDCARD = '*.cmd'
 ALIAS_EXTENSION = '.cmd'
 
-SETUP_PROMPT = f'{prog} is not installed. Do you want to install it (y/N)? '
 DESCRIPTION = '''Manage your aliases.
 
 Add alias:
