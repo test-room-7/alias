@@ -13,17 +13,18 @@ param_pattern = r'\%[0-9\*]'
 ALIAS_WILDCARD = '*.cmd'
 ALIAS_EXTENSION = '.cmd'
 
-DESCRIPTION = '''Manage your aliases.
+DESCRIPTION = f'''Manage command aliases in Windows.
 
 Add alias:
-  > alias gdf=git diff %*
+  > {prog} gdf=git diff %*
+  > {prog} gpht="git push %* && git push --tags %*"
 
 Delete alias:
-  > alias -d gdf
+  > {prog} -d gdf
 
 Show aliases:
-  > alias
-  > alias -v
+  > {prog}
+  > {prog} -v
 '''
 
 
