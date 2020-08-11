@@ -12,7 +12,8 @@ By default aliases are stored in `%USERPROFILE%\Documents\Scripts\Aliases`. You 
 
 ## Managing aliases
 
-Get the list of available aliases:
+### Get the list of available aliases
+
 ```cmd
 REM Default output
 > alias
@@ -25,19 +26,22 @@ gsh = git show $*
 gst = git status --short --branch %*
 ```
 
-Add an alias:
+### Add an alias
+
 ```cmd
 > alias test=dir \b %*
 Added test
 ```
 
-Add an alias with multiple commands:
+### Add an alias with multiple commands
+
 ```cmd
 REM Use double quotes to wrap commands joined with &&
 > alias gpht="git push %* && git push --tags %*"
 ```
 
-Show the alias:
+### Show the alias
+
 ```cmd
 REM List aliases start with a given input
 > alias g
@@ -48,7 +52,8 @@ REM Show the alias
 dir \b %*
 ```
 
-Search for a text in alias commands:
+### Search for a text in alias commands
+
 ```cmd
 REM Default output
 > alias -s apk
@@ -60,7 +65,8 @@ baksmali = %SOFTWARE%\apktool\apktool.bat d %*
 smali = %SOFTWARE%\apktool\apktool.bat b %*
 ```
 
-Delete the alias:
+### Delete the alias
+
 ```cmd
 > alias -d test
 Deleted test
@@ -68,11 +74,10 @@ Deleted test
 
 ## Environment variables
 
-`alias` changes two variables:
-1. `%ALIASES_DIR%`
-Directory where aliases are stored.
-2. `%PATH%`
-Adds `%ALIASES_DIR%` to `%PATH%`.
+`alias` uses two environment variables:
+
+- `%ALIASES_DIR%` which refers to a directory where aliases are stored
+- `%PATH%` which is appended with the directory specified in the `%ALIASES_DIR%` variable
 
 ## License
 
